@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+	<filter-mapping>
+		<filter-name>jdbcFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+  
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <!-- 
+  <servlet>
+    <description></description>
+    <display-name>LoginServlet</display-name>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>ute.webapplication.controller.web.LoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/LoginServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>JDBCFilter</display-name>
+    <servlet-name>JDBCFilter</servlet-name>
+    <servlet-class>ute.webapplication.filters.JDBCFilter</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>JDBCFilter</servlet-name>
+    <url-pattern>/JDBCFilter</url-pattern>
+  </servlet-mapping>
+  <filter>
+    <display-name>JDBCFilter</display-name>
+    <filter-name>JDBCFilter</filter-name>
+    <filter-class>ute.webapplication.filters.JDBCFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>JDBCFilter</filter-name>
+    <url-pattern>/JDBCFilter</url-pattern>
+  </filter-mapping>
+   -->
+</web-app>
