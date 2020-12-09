@@ -4,9 +4,10 @@ import java.sql.Connection;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import ute.firstproject.services.BinaryTree;
 
 
 
@@ -36,6 +37,18 @@ public class MyUtils {
 //		AccountModel loginedUser = (AccountModel) session.getAttribute("loginedUser");
 //		return loginedUser;
 //	}
+	
+	
+	public static void storeBinaryTree(HttpSession session, BinaryTree bTree)
+	{
+		session.setAttribute("bTree", bTree);
+	}
+	
+	public static BinaryTree getBinaryTree(HttpSession session)
+	{
+		BinaryTree bTree = (BinaryTree) session.getAttribute("bTree");
+		return bTree;
+	}
 	
 //	public static void storeUserCookie(HttpServletResponse response, AccountModel user)
 //	{

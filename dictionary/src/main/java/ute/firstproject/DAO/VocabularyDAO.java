@@ -2,12 +2,38 @@ package ute.firstproject.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import ute.firstproject.model.OneWordModel;
 
 public class VocabularyDAO implements IObjectDAO{
+	
+	public static List<OneWordModel> allWords(Connection conn)
+	{
+		String sql = "Select * from vocabulary";
+		try {
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			ResultSet rs = pstm.executeQuery();
+			List<OneWordModel> allWords = new ArrayList<OneWordModel>();
+			while (rs.next()) {
+				OneWordModel newWord = new OneWordModel();
+				newWord.setWord(rs.getString(2));
+				newWord.setPronunciation(rs.getString(3));
+				newWord.setWordType(rs.getString(4));
+				newWord.setMean(rs.getString(5));
+				allWords.add(newWord);
+			}
+			return allWords;
+		} catch (SQLException e) {
 
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	@Override
 	public boolean add(Connection conn, Object obj) {
 		OneWordModel word = (OneWordModel)obj;
