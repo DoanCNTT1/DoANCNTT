@@ -8,20 +8,10 @@ import ute.firstproject.model.NodeModel;
 import ute.firstproject.model.OneWordModel;
 
 public class BinaryTree {
-	private BinaryTree root;
+	
 
-	public BinaryTree getRoot() {
-		return root;
-	}
-
-	public void setRoot(BinaryTree root) {
-		this.root = root;
-	}
 	// Khởi tạo cây rỗng
-	public BinaryTree()
-	{
-		root = null;
-	}
+	
 	
 	public int insertNode(NodeModel T, OneWordModel word)
 	{

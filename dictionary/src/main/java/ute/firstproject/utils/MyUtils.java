@@ -7,6 +7,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import ute.firstproject.model.BinaryTreeModel;
 import ute.firstproject.services.BinaryTree;
 
 
@@ -39,14 +40,14 @@ public class MyUtils {
 //	}
 	
 	
-	public static void storeBinaryTree(HttpSession session, BinaryTree bTree)
+	public static void storeBinaryTree(HttpSession session, BinaryTreeModel bTree)
 	{
 		session.setAttribute("bTree", bTree);
 	}
 	
-	public static BinaryTree getBinaryTree(HttpSession session)
+	public static BinaryTreeModel getBinaryTree(HttpSession session)
 	{
-		BinaryTree bTree = (BinaryTree) session.getAttribute("bTree");
+		BinaryTreeModel bTree = (BinaryTreeModel) session.getAttribute("bTree");
 		return bTree;
 	}
 	

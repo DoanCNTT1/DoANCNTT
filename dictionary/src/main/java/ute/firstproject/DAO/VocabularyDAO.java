@@ -92,4 +92,16 @@ public class VocabularyDAO implements IObjectDAO{
 	}
 	
 
+	public List<String> search(Connection conn, String keyword)
+	{
+		List<String> names = new ArrayList<String>();
+		List<OneWordModel> allWords = allWords(conn);
+		for (OneWordModel oneWord : allWords) {
+			if (oneWord.getWord().toLowerCase().contains(keyword.toLowerCase())) {
+				names.add(oneWord.getWord());
+			}
+		}
+		return names;
+	}
+	
 }
