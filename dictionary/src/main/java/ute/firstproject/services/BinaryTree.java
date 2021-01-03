@@ -4,15 +4,33 @@ package ute.firstproject.services;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ute.firstproject.DAO.VocabularyDAO;
 import ute.firstproject.model.NodeModel;
 import ute.firstproject.model.OneWordModel;
+import ute.firstproject.utils.MyUtils;
 
 public class BinaryTree {
-	
-
-	// Khởi tạo cây rỗng
-	
-	
+	public List<String> find_NLR(NodeModel node,String keyword)
+	{
+		List<String> list=new ArrayList<String>();
+		if (node == null) {
+			return list;
+		}
+		else {
+			//System.out.print(node.getData().getWord());
+			if(node.getData().getWord().contains(keyword))
+			{
+				list.add(node.getData().getWord());
+			}
+			System.out.println(node.getData().getWord());
+			find_NLR(node.getpLeft(),keyword);
+			find_NLR(node.getpRight(),keyword);
+		}
+		return null;
+	}
 	public int insertNode(NodeModel T, OneWordModel word)
 	{
 		if (T != null) {
@@ -45,33 +63,87 @@ public class BinaryTree {
 			Y.setNode(Y.getpRight());
 		}
 	}
-	
-	public void deleteNode(NodeModel node, String key)
+	public  NodeModel minValueNode(NodeModel node) {
+        NodeModel current = node;
+        /* loop down to find the leftmost leaf */
+        while (current.getpLeft() != null)
+            current = current.getpLeft();
+        return current;
+    }
+	public NodeModel deleteNode(NodeModel node, String key)
 	{
 		if (node == null) {
-			return;
+			return node;
 		}
 		else {
 			if (key.compareTo(node.getData().getWord())<0) {
-				deleteNode(node.getpLeft(), key);
+				node.setpLeft(deleteNode(node.getpLeft(), key));
 			}
 			else if (key.compareTo(node.getData().getWord())>0) {
-				deleteNode(node.getpRight(), key);
+				node.setpRight(deleteNode(node.getpRight(), key));
 			}
 			else {
-				NodeModel X = node;
-				if (node.getpLeft()==null) {
-					node=node.getpRight();
-				}
-				else if (node.getpLeft() == null) {
-					node=node.getpLeft();
-				}
-				else {
-					alternativeSearch(X, node.getpRight());
-				}
-				X=null;
+				if( (node.getpLeft() == null) || (node.getpRight() == null) ) {
+
+	                NodeModel temp;
+	                if (node.getpLeft() != null)
+	                        temp = node.getpLeft();
+	                else
+	                    temp = node.getpRight();
+
+	                // No child case
+	                if(temp == null) {
+	                    temp = node;
+	                    node = null;
+	                }
+	                else // One child case
+	                	node = temp; // Copy the contents of the non-empty child
+
+	                temp = null;
+	            }
+	            else {
+	                // node with two children: Get the inorder successor (smallest
+	                // in the right subtree)
+	                NodeModel temp = minValueNode(node.getpRight());
+
+	                // Copy the inorder successor's data to this node
+	                node.setData(temp.getData());
+
+	                // Delete the inorder successor
+	                node.setpRight(deleteNode(node.getpRight(), key)) ;
+	            }
 			}
-		}	
+		}
+		if (node == null) {
+			return node;
+		}
+        node.setHeight(1+max(height(node.getpLeft()), height(node.getpRight())));
+        // STEP 3: GET THE BALANCE FACTOR OF THIS NODE (to check whether
+        //  this node became unbalanced)
+        int balance = getBalance(node);
+
+        // If this node becomes unbalanced, then there are 4 cases
+
+        // Left Left Case
+        if (balance > 1 && getBalance(node.getpLeft()) >= 0)
+            return rightRotate(node);
+
+        // Left Right Case
+        if (balance > 1 && getBalance(node.getpLeft()) < 0) {
+            node.setpLeft(leftRotate(node.getpLeft()));
+            return rightRotate(node);
+        }
+
+        // Right Right Case
+        if (balance < -1 && getBalance(node.getpRight()) <= 0)
+            return leftRotate(node);
+
+        // Right Left Case
+        if (balance < -1 && getBalance(node.getpRight()) > 0) {
+            node.setpRight(rightRotate(node.getpRight()));
+            return leftRotate(node);
+        }
+		return node;
 	}
 	
 	

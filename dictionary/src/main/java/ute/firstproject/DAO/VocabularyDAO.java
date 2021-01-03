@@ -10,6 +10,29 @@ import java.util.List;
 import ute.firstproject.model.OneWordModel;
 
 public class VocabularyDAO implements IObjectDAO{
+	public static List<OneWordModel> allWordsForViet_Anh(Connection conn)
+	{
+		String sql = "Select * from vocabulary";
+		try {
+			PreparedStatement pstm = conn.prepareStatement(sql);
+			ResultSet rs = pstm.executeQuery();
+			List<OneWordModel> allWords = new ArrayList<OneWordModel>();
+			while (rs.next()) {
+				OneWordModel newWord = new OneWordModel();
+				newWord.setMean(rs.getString(2));
+				newWord.setPronunciation(rs.getString(3));
+				newWord.setWordType(rs.getString(4));
+				newWord.setWord(rs.getString(5));
+				allWords.add(newWord);
+			}
+			return allWords;
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	
 	public static List<OneWordModel> allWords(Connection conn)
 	{
@@ -56,14 +79,15 @@ public class VocabularyDAO implements IObjectDAO{
 
 	@Override
 	public boolean edit(Connection conn, Object obj, String word) {
-		OneWordModel oneWord = new OneWordModel();
+		OneWordModel oneWord = (OneWordModel)obj;
 		String sql = "Update vocabulary set pronunciation=?, wordType=?, mean=? Where word=?";
 		try {
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			pstm.setString(1, oneWord.getPronunciation());
 			pstm.setString(2, oneWord.getWordType());
 			pstm.setString(3, oneWord.getMean());
-			pstm.setString(4, oneWord.getWord());
+			pstm.setString(4, word);
+			System.out.println(pstm);
 			pstm.executeUpdate();
 			return true;
 		} catch (SQLException e) {
@@ -73,14 +97,14 @@ public class VocabularyDAO implements IObjectDAO{
 		
 		return false;
 	}
-
 	@Override
 	public boolean delete(Connection conn, String word) {
 		OneWordModel oneWord = new OneWordModel();
-		String sql = "Delete * From vocabulary Where word=?";
+		String sql = "Delete From vocabulary Where word=?";
 		try {
 			PreparedStatement pstm = conn.prepareStatement(sql);
-			pstm.setString(1, oneWord.getWord());
+			pstm.setString(1, word);
+			System.out.println(pstm);
 			pstm.executeUpdate();
 			return true;
 		} catch (SQLException e) {
@@ -92,16 +116,4 @@ public class VocabularyDAO implements IObjectDAO{
 	}
 	
 
-	public List<String> search(Connection conn, String keyword)
-	{
-		List<String> names = new ArrayList<String>();
-		List<OneWordModel> allWords = allWords(conn);
-		for (OneWordModel oneWord : allWords) {
-			if (oneWord.getWord().toLowerCase().contains(keyword.toLowerCase())) {
-				names.add(oneWord.getWord());
-			}
-		}
-		return names;
-	}
-	
 }

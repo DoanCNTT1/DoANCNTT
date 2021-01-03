@@ -23,17 +23,14 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/template/js/jquery.min.js">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/template/js/lbutils-1.01.min.js">
 
-<script type="text/javascript">
-var userAgent = navigator.userAgent.toLowerCase();
-if (/iphone/i.test(userAgent) || /android/i.test(userAgent) || (/mobile/i.test(userAgent))) {
-window.location = 'http://m.dict.laban.vn/';
-}
-if(typeof String.prototype.trim !== 'function') {
-String.prototype.trim = function() {
-return this.replace(/^\s+|\s+$/g, '');
-}
-}
-</script></head>
+<!-- <script type="text/javascript">
+	$(document).ready(function() {
+		$('#search').autocomplete({
+			source: '${pageContext.request.contextPath}/search'
+		});
+	});
+</script> -->
+</head>
 <body>
 <div class="overlay-bg hidden"></div>
 <!-- Begin: HEADER -->
@@ -41,7 +38,7 @@ return this.replace(/^\s+|\s+$/g, '');
 <div class="wrapper">
 <div class="header_content">
 <h1 class="logo">
-<a title="Về trang chủ" href="${pageContext.request.contextPath}/trang-chu" >Laban Dictionary - Từ diển Anh Việt, Việt Anh</a>
+<a title="Về trang chủ" href="https://dict.laban.vn" >Laban Dictionary - Từ diển Anh Việt, Việt Anh</a>
 </h1>
 <div class="clr"></div>
 </div>
@@ -52,23 +49,26 @@ return this.replace(/^\s+|\s+$/g, '');
 <!-- begin: Body site -->
 <div class="wrapper">
 <div class="laban_tudien">
-<form method="POST" action="${pageContext.request.contextPath}/trang-chu">
+<form method="POST" action="${pageContext.request.contextPath}/AdminController">
+<a href="" >Login Admin</a><br>
 <div class="input_area">
-<input maxlength="49" type="text" class="input_box" value="" id="txtSearchBox" name="textboxSearch">
-<input maxlength="49" type="text" class="input_box hidden" value="" id="txtSearchBox_vi" name="term">
-<input maxlength="49" type="text" class="input_box hidden" value="" id="txtSearchBox_en_en" name="term"> 
-<select name="ChooseType" id="searchOptions" class="options" >
-<option value="1" >Anh - Việt</option>
-<option value="2" >Việt - Anh</option>
+Word insert:<input maxlength="49" type="text" class="input_box" id="txtSearchBox" placeholder="Enter Word" value="${word}" id="txtSearchBox" name="WordAdd"><br>
+<c:out value="${checkError.getErrorWord()}"/>
+<input type="submit" name="action" id="add" value="Add">
+Pronunciation insert:<input maxlength="49" type="text" class="input_box"  value="${pronunciation}" placeholder="In put pronunciation"  name="Pronunciation"><br>
+<c:out value="${checkError.getErrorPro()}"/>
+Word type insert:<input maxlength="49" type="text" class="input_box" value="${wordtype}" placeholder="Enter Word Type"  name="WordType"><br>
+<c:out value="${checkError.getErroWordType()}"/>
+Word Mean Insert: <input maxlength="49" type="text" class="input_box" value="${mean}" placeholder="Enter Mean"  name="Mean"><br> 
+<input maxlength="49" type="text" class="input_box" value="${mean}" placeholder="Enter Mean"  name="Mean2"><br>
+<input maxlength="49" type="text" class="input_box" value="${mean}" placeholder="Enter Mean"  name="Mean2"><br> 
 
-</select>
-<div><input type="submit" name="search" class="submitWord" id="search" value="search"></div>
+<c:out value="${checkError.getErrorMean()}"/>
 </div>
-
 </form>
-<a href="${pageContext.request.contextPath}/views/web/AddNewWord.jsp">Thêm một từ mới</a>
-</div>
-</div>
+<c:out value="${checkError.getErrorWord()}"/>
+<div>
+<div>
  <div class="info_l">
 <h3>Laban Dictionary</h3>
 <ul>
@@ -134,6 +134,7 @@ END FOOTER
 <link rel="stylesheet" href="${pageContext.request.contextPath}/templates/web/js/jquery.draggable.min.js">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/templates/web/js/jquery.min.js">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/templates/web/js/lbutils-1.01.min.js">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/templates/web/css/bootstrap.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
@@ -149,7 +150,7 @@ return this.replace(/^\s+|\s+$/g, '');
 }
 </script>
 </head>
-<body >
+<body>
 <div class="overlay-bg hidden"></div>
 <!-- Begin: HEADER -->
 <div id="header">
@@ -170,15 +171,35 @@ return this.replace(/^\s+|\s+$/g, '');
     width: 30%;">
 <div class="laban_tudien">
 
-<form action="${pageContext.request.contextPath}/searchResult">
+<form action="${pageContext.request.contextPath}/AdminController">
 <div class="input_area">
-<input maxlength="49" type="text" class="input_box" autocomplete="off" value="" id="txtSearchBox" name="term">
+<div>
+<p style="font-size: x-large;font-style:oblique;">Word Insert:</p>
+ <input maxlength="49" type="text" class="input_box" id="txtSearchBox" placeholder="Enter Word" value="${word}" id="txtSearchBox" name="WordAdd" ><i color="red"><c:out value="${checkError.getHaveNode()}"/></i>
+<p class="text-danger" style="color: red;"><c:out value="${checkError.getErrorWord()}"/>
+
+</div>
+<div>
+<p style="font-size: x-large;font-style:oblique;">Pronunciation Insert:</p>
+<input maxlength="49" type="text" class="input_box"  value="${pronunciation}" placeholder="In put pronunciation"  name="Pronunciation">
+<i style="color: red;"><c:out value="${checkError.getErrorPro()}"/></i>
+</div>
+<div>
+<p style="font-size: x-large;font-style:oblique;">Word Type Insert:</p>
+<input maxlength="49" type="text" class="input_box" value="${wordtype}" placeholder="Enter Word Type"  name="WordType">
+<i style="color: red;"><c:out value="${checkError.getErroWordType()}"/></i>
+</div>
+<div>
+<p style="font-size: x-large;font-style:oblique;">Mean Insert:</p>
+<input maxlength="49" type="text" class="input_box" value="${mean}" placeholder="Enter Mean"  name="Mean">
+<i style="color: red;"><c:out value="${checkError.getErrorMean()}"/></i>
+</div>
 <!-- <input maxlength="49" type="text" class="input_box hidden" autocomplete="off" value="" id="txtSearchBox_vi" name="termEn"> -->
 <select id="searchOptions" class="options" name="searchOptions" onchange="location = this.options[this.selectedIndex].value;">
 <option value="1" >Anh - Việt</option>
-<option value="${pageContext.request.contextPath}/trang-chu?searchOptions=2" >Việt - Anh</option>
+<option value="${pageContext.request.contextPath}/views/web/AddNewWord2.jsp" >Việt - Anh</option>
 </select>
-<input type="submit" class="submitWord" id="search" value="Tra từ" style="background-color: #c47135;">
+<input type="submit" name="action" value="Add" style="background-color: #c47135;">
 </div>
 </form>
 <a href="${pageContext.request.contextPath}/views/web/AddNewWord.jsp" style="font-size: x-large;font-style:oblique;">Thêm một từ mới</a>
@@ -198,11 +219,14 @@ return this.replace(/^\s+|\s+$/g, '');
 
 
 <div class="info_l">
-<h3>UTE Dictionary</h3>
+<h3>Báo cáo đồ án một đồ án một  </h3>
 <ul>
-<li>Từ điển trực tuyến miễn phí cho người Việt</li>
+<li>Web từ điển</li>
 <li>Cung cấp 2 bộ từ điển chính: Anh – Việt, Việt – Anh</li>
-<li>Kho từ đồ sộ cùng hệ thống gợi ý từ thông minh, UTE Dictionary giúp tra cứu nhanh chóng nhất.</li>
+<li>Nhóm sinh viên thực hiện:<br>
+	Nguyễn Dương Đạt MSSV:18110092<br>
+	Nguyễn Lâm Gia Khang MSSV:18110132</li>
+<li>Giảng viên hướng dẫn: Th.S: Trần Công Tú</li>
 </ul>
 </div>
 
@@ -212,13 +236,12 @@ return this.replace(/^\s+|\s+$/g, '');
 <div id="footer">
 <div class="wrapper">
 <div class="footer_content">
-<h2 class="logo_footer">UTE</h2>
+<h2 class="logo_footer">Tài liệu tham khảo</h2>
 <ul class="footer_info">
-<li style="list-style:none;"><a target="_blank" href="https://app.laban.vn/laban-dictionary" title="">Giới thiệu</a></li>
+<li style="list-style:none;"><a target="_blank" href="https://app.laban.vn/laban-dictionary" title="">Từ điển trực tuyến UTE</a></li>
 <!-- <li><a target="_blank" href="https://laban.vn" title="">Vào Laban.vn</a></li> -->
 <li><a target="_blank" href="/api" title="">API</a></li>
 <li>Web có sử dụng một số nền của trang web laban.vn</li>
-<li><a href="javascript:;" onclick="showContact();" title="">Liên hệ</a></li>
 <li style="list-style:none; padding-left:275px; padding-right:0;">Copyright &copy; Laban.vn</li>
 </ul>
 <div class="clr"></div>

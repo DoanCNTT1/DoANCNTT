@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import ute.firstproject.model.BinaryTreeModel;
 import ute.firstproject.services.BinaryTree;
+import ute.firstproject.model.AccountModel;
 
 
 
@@ -16,6 +17,18 @@ import ute.firstproject.services.BinaryTree;
 public class MyUtils {
 	public static final String ATT_NAME_CONNECTION = "ATTRIBUTE_NAME_CONNECTION";
 	public static final String ATT_NAME_USER_NAME = "ATTRIBUTE_FOR_STORE_USER_NAME_IN_COOKIE";
+	
+	public static void storeLoginedUser(HttpSession session, AccountModel loginedUser)
+	{
+		session.setAttribute("loginedUser",	loginedUser);
+	}
+	
+	public static AccountModel getLoginedUser(HttpSession session)
+	{
+		AccountModel loginedUser = (AccountModel) session.getAttribute("loginedUser");
+		return loginedUser;
+	}
+	
 	
 	public static void storeConnection(ServletRequest request, Connection conn)
 	{
@@ -50,7 +63,16 @@ public class MyUtils {
 		BinaryTreeModel bTree = (BinaryTreeModel) session.getAttribute("bTree");
 		return bTree;
 	}
-	
+	public static void storeBinaryTreeVA(HttpSession session, BinaryTreeModel bTreeVA)
+	{
+		session.setAttribute("bTreeVA", bTreeVA);
+	}
+	public static BinaryTreeModel getBinaryTreeForViet_Anh(HttpSession session)
+	{
+		BinaryTreeModel bTreeVA = (BinaryTreeModel) session.getAttribute("bTreeVA");
+		return bTreeVA;
+	}
+
 //	public static void storeUserCookie(HttpServletResponse response, AccountModel user)
 //	{
 //		System.out.print("Store user cookie");
